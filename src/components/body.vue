@@ -1,16 +1,20 @@
 <template>
-   <body>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <body>
+      <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+      crossorigin="anonymous"
+    />
 
-  
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
 
-    <div class="header ">
+    <div class="header">
       <div class="container">
-        <div class="row top">
+        <div class="row top" id="row-top">
           <div class="col-md-6 text-left">
             <br />
             <ul class="list-inline left">
@@ -142,7 +146,7 @@
                 </div>
               </div>
               <a href="" class="navbar-brand">
-                <img src="./img/PngItem_2047314.png" alt="LogoQouran" />
+                <img src="img/PngItem_2047314.png" alt="LogoQouran" />
               </a>
             </div>
           </nav>
@@ -150,63 +154,87 @@
       </div>
     </div>
 
-    <div class="contact absolute" style="">
-      <div  style="" class="row ">
-        <ul style="" id="Hashtak"  >
-         
-          <li  class="list-group-item list-group-item-light" id="cont"
-           v-for="(suraa,index) in SuraList" 
-           :key="index"
-            >
-                   <router-link :to="{name:'about',params:{id:index} }" >
-                     <h3>{{suraa[4]}} </h3>
-                     <h5>{{suraa[6]}}</h5>
-                     
-              </router-link> 
-     
-                  
+    <div class="contact">
+      <div>
+        <ul id="Hashtak">
+          <li
+            class="list-group-item list-group-item-light"
+            id="cont"
+            v-for="(suraa, index) in SuraList"
+            :key="index"
+          >
+            <router-link  :to="{ name: 'about', params: { id: index + 1 } }">
+              <p id="index-aye">{{ index + 1 }}</p>
+              <h3>{{ suraa[4] }}</h3>
+              <h5>{{ suraa[7] }}</h5>
+            </router-link>
           </li>
         </ul>
-      </div>     
-        </div>
-       
+      </div>
+    </div>
   </body>
-        
 </template>
 
-<script>
-import aboutPage from './aboutPage.vue'
+<script >
+
+import aboutPage from "./aboutPage.vue";
 import { SuraList } from "../assets/quran-metadata";
-
+import { useRouter, useRoute } from "vue-router";
 export default {
-  
- components: { aboutPage },
-    data(){
-       
+  components: { aboutPage },
+  setup() {
+    const router = useRouter();
+    const route = useRoute();
 
-
-   return{
-     SuraList,
-     
- 
-   }
-    }
-    
   
+
+    return {
+      SuraList,
+    };
+  },
 };
 </script>
 
-<style>
+<style scoped>
+body {
+  background: rgb(255, 255, 255);
+}
+@font-face {
+  font-family: "Yeskan" !important;
+  src: url("../assets/fonts/vazir/Vazir-Thin-WOL.eot") format("eot");
+}
+* {
+  font-family: "Yeskan",  !important; 
+}
 
-#cont{
+#index-aye {
+  padding: 0px;
+  width: 29px;
+  height: 24px;
+  color: white;
+  float: left;
+  display: block;
+  background: #00acc1;
+  text-align: center;
+  font-size: 19px;
+  border-radius: 4px;
+}
+
+#cont {
   box-shadow: 0px 0px 5px 5px #ddd;
   border-radius: 16px;
   width: 200px;
   padding: 16px;
   margin: 16px;
 }
-#Hashtak{
- display: flex;
+#Hashtak h3 {
+  color: #00acc1;
+}
+#Hashtak h5 {
+  color: #00acc1;
+}
+#Hashtak {
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
@@ -231,7 +259,9 @@ export default {
   color: #474b4d;
   font-family: yekan;
   padding-right: 3px;
+  outline: none;
   border-radius: 11px;
+  cursor: auto;
 }
 #search_top {
   width: 434px;
@@ -240,22 +270,23 @@ export default {
   position: relative;
 }
 
-
 * {
   direction: rtl;
   text-align: right;
 }
 a {
-  color: white;
+  color: rgb(37, 0, 248);
+  text-decoration: none;
 }
 
 .header {
-  height: 100vh;
   background-position: center;
   background-size: cover;
   padding: 9px 20px 38px;
 }
-
+#row-top {
+  direction: rtl;
+}
 .row.top ul li a {
   color: #ccc;
   font-size: 14px;
@@ -294,10 +325,5 @@ ul.navbar-nav.mr-auto {
   position: relative;
   color: white;
   text-decoration: none;
-}
-
-.contact {
-  height: 300px;
-  background: rgb(255, 255, 255);
 }
 </style>
