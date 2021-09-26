@@ -29,6 +29,7 @@
                 <a href=" ">ایات</a>
               </li>
             </ul>
+           
             <br />
           </div>
           <div class="col-md-6 text-right">
@@ -136,7 +137,7 @@
               </ul>
               <div class="my-2 my-lg-0 nav-right-icons">
                 <div id="search_top">
-                  <input
+                  <input v-model="serachInput"
                     id="input-menu"
                     placeholder="  آیه قرآن سرچ کنید  "
                     type="text"
@@ -160,42 +161,58 @@
           <li
             class="list-group-item list-group-item-light"
             id="cont"
-            v-for="(suraa, index) in SuraList"
+            v-for="(suraa, index) in filterSura()  "
             :key="index"
+            
           >
             <router-link  :to="{ name: 'about', params: { id: index + 1 } }">
               <p id="index-aye">{{ index + 1 }}</p>
               <h3>{{ suraa[4] }}</h3>
               <h5>{{ suraa[7] }}</h5>
             </router-link>
+            
           </li>
         </ul>
       </div>
+    </div>
+    <div id="social">
+     
     </div>
   </body>
 </template>
 
 <script >
 
+
 import aboutPage from "./aboutPage.vue";
 import { SuraList } from "../assets/quran-metadata";
 import { useRouter, useRoute } from "vue-router";
+import { ref } from "vue";
+
 export default {
   components: { aboutPage },
   setup() {
     const router = useRouter();
     const route = useRoute();
-
-  
+    let store =useStore();
+    const serachInput=ref("")
+   
+    function filterSura(){
+      return SuraList.filter(suraa => suraa.name.includes(store.state.serachInput.value))
+    }
 
     return {
-      SuraList,
+      SuraList,serachInput,filterSura
     };
   },
 };
 </script>
 
 <style scoped>
+#social
+ {width: 299px;
+height: 300px
+;}
 body {
   background: rgb(255, 255, 255);
 }
