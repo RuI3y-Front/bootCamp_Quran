@@ -17,23 +17,27 @@
       id="ayeha-div"
       v-for="(ayaa, index) in list"
       :key="index"
-    ref="text"
+       ref="text"
       
     >
       <div id="aya" >
         {{ ayaa }} <span id="aya-index">﴿{{ index + 1 }}﴾</span>
       </div>
 
-      <div id="tarjome" v-for="tarjomeAyat in tarjomeList" :key="tarjomeAyat">
-        {{ tarjomeAyat[index] }} ({{ index + 1 }})
+      <div id="tarjome" v-for="(tarjomeAyat,i) in tarjomeList" :key="i">
+        {{ tarjomeAyat[i] }} ({{ i + 1 }})
       </div>
 
       <div id="action">
-        <div id="copy">  
-            <i id="copy-icon"></i>
+        <div id="copy" @click="">  
+            <i id="copy-icon" @click="CopyAya(ayaa,ayaTranslateCopy[0][index])"></i>
     </div>
-        <div id="share"><i id="icon-share"></i></div>
-        <div id="ply"><i id="icon-ply"></i></div>
+        <div id="share" ><i id="icon-share"></i></div>
+        <div id="ply"><i id="icon-ply" @click="plySound(suraNumber,index+1)"></i>
+          <audio   ref="audioElement" :src="urlAudio" type="audio/mp3" >
+              
+          </audio> 
+        </div>
       </div>
       <span id="border"></span>
     </div>
@@ -47,7 +51,7 @@
 import { page } from "../assets/quranPage.js";
 import { ayat, SuraList } from "../assets/quran-metadata";
 import { useRouter, useRoute } from "vue-router";
-import { onMounted, onUnmounted, computed } from "@vue/runtime-core";
+import { onMounted, onUnmounted, computed, nextTick } from "@vue/runtime-core";
 import { tarjome } from "../assets/tarjomeh/fa.makarem";
 import { ref } from "vue";
 import useClipboard from 'vue-clipboard3'
@@ -59,14 +63,14 @@ export default {
     "use strict";
     const router = useRouter();
     const route = useRoute();
-
     let ayatArray = ayat.split("\n");
     let suraNumber = +route.params.id;
-
+    
     //  ایندکس آیه ها را پیدا میکنه و اون هارو مساوی با سوره نامبر میکنه
     // let sura =computed (() =>{
 
     let pageNumber = +page.findIndex((pages) => pages[0] >= suraNumber);
+
 
     const [newSuraNumber, newAyaNumber] = page[pageNumber];
     const firstAyaOfPage = SuraList[newSuraNumber - 1][newAyaNumber - 1];
@@ -95,85 +99,44 @@ export default {
         window.scroll(0, window.pageYOffset - 2000);
       }, 20);
     }
-
-
             // copy /// 
+            
+let ayaTranslateCopy  =computed(()=>{
+tarjomeList.slice([newAyaNumber - 1],[+nextAyaNumber - 1])
 
-//  function    copyToClipboard() {
-//   const copyText = document.getElementById( 'ayaa ').textContent
-//   const textArea = document.createElement('textarea')
-//   textArea.textContent = copyText
-//   document.body.append(textArea)
-//   textArea.select()
-//   document.execCommand('copy')
-//     document.body.removeChild(textArea)
+  return tarjomeList
+})
+            function CopyAya(aya:string, i:number){
 
-// }
-// onMounted (() =>{
-// const copy =document.getElementById('clickMe')
-
-//   copy.addEventListener('click',(event)=>{
-//     const content = document.getElementById('aya').textContent;
-//     navigator.clipboard.writeText(content)
-//   })
-        
-// })
-
-
-
-//  const { toClipboard } = useClipboard()
-
-//  
-//     const copy = async () => {debugger
-//       try {
-//         await toClipboard(text.value.innerText)
-//         console.log('Copied to clipboard')
-//       } catch (e) {
-//         console.error(e)
-//       }
-    
-//     }
-
-
-
-
-
-
-    // let loading = ref(false);
-    // let nextItem = ref(1);
-    // onMounted(() => {
-    //   const listAye = document.querySelector("#ayeha");
-
-    //   listAye.addEventListener("scroll", (Event) => {
-    //     if (listAye.scrollTop + listAye.clientHeight >= listAye.scrollHeight) {
-    //       loadMore();
-    //     }
-    //   });
-    //   loadMore();
-    // });
-    // function loadMore() {
-    //   loading.value = true;
-    //   setTimeout((e) => {
-    //     for (var i = 0; i < 30; i++) {
-    //       list.push("Items" + nextItem.value++);
-        
-    //     }
-    //     loading.value = false;
-    //   }, 200);
-    // }
-
+               try{ navigator.clipboard.writeText(aya + " / " + i);
+            } catch{
+              alert("nemishe")
+            }
+            
+            }
+            const  urlAudio=ref()
+            const audioElement = ref<HTMLAudioElement>();
+            
+           async function plySound(i:number,index:number){
+       urlAudio.value= await "https://www.everyayah.com/data/AbdulSamad_64kbps_QuranExplorer.Com/00"+i+ "00"+index +".mp3"
+        nextTick()
+         audioElement.value!.play();
+         console.log(suraNumber);
+         console.log(urlAudio.value);
+         
+            }
+              
     return {
-      // loadMore,
-      // loading,
-      // nextItem,
-//    copyToClipboard,
-// CopyAyat,
+      CopyAya,audioElement,
+      urlAudio,
+      plySound,
       suraNumber,
        scrollToTop,
       SuraList,
       tarjomeAlllist,
       tarjomeList,
       list,
+      ayaTranslateCopy
     };
   },
 };
@@ -214,6 +177,11 @@ export default {
   height: 30px;
   margin-bottom: 4px;
 }
+#copy-icon:hover{
+  width: 31px;
+  height: 29px;
+  cursor: pointer;
+}
 #copy-icon{
   background-image: url(../icon/icons8-copy-30.png);
   display: inline-block;
@@ -222,6 +190,12 @@ export default {
 }
 #ply{
   height: 30px;
+}
+#icon-ply:hover{
+  height: 26px;
+  width: 24px;
+  cursor: pointer;
+  color: red;
 }
 #icon-ply{
        width: 24px;

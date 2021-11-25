@@ -7,7 +7,7 @@ export const ayat = `بسم الله الرحمن الرحيم
 إياك نعبد وإياك نستعين
 اهدنا الصراط المستقيم
 صراط الذين أنعمت عليهم غير المغضوب عليهم ولا الضالين
-بسم الله الرحمن الرحيم الم
+بسم الله الرحمن الرحيم  الم
 ذلك الكتاب لا ريب ۛ فيه ۛ هدى للمتقين
 الذين يؤمنون بالغيب ويقيمون الصلاة ومما رزقناهم ينفقون
 والذين يؤمنون بما أنزل إليك وما أنزل من قبلك وبالآخرة هم يوقنون
@@ -6240,10 +6240,10 @@ export const ayat = `بسم الله الرحمن الرحيم
 `;
 
 export var SuraList = [
-  // [start, ayas, order, rukus, name, tname, ename, type]
+  //  ['start', 'ayas', 'order', 'rukus', 'name', 'tname', 'ename', 'type'],
   [0, 7, 5, 1, "الفاتحة", "Al-Faatiha", "The Opening", "Meccan"],
   [7, 286, 87, 40, "البقرة", "Al-Baqara", "The Cow", "Medinan"],
-  [ 293, 200, 89, 20,"آل عمران", "Aal-i-Imraan", "The Family of Imraan", "Medinan",],
+  [293,200,89,20,"آل عمران","Aal-i-Imraan","The Family of Imraan","Medinan",],
   [493, 176, 92, 24, "النساء", "An-Nisaa", "The Women", "Medinan"],
   [669, 120, 112, 16, "المائدة", "Al-Maaida", "The Table", "Medinan"],
   [789, 165, 55, 20, "الأنعام", "Al-An'aam", "The Cattle", "Meccan"],

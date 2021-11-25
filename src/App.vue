@@ -1,10 +1,9 @@
 <template>
-<div>
+<div :style="{fontFamily: font}">
  <router-link to="/"></router-link>
 
   <router-view></router-view>
- 
-{{$route.params.id}}
+
 </div>
 </template>
 
@@ -16,9 +15,15 @@
 export default {
  data(){
    return{
- 
+     font: 'b yekan'
    }
- },computed:{
+ },
+ created() {
+   if (localStorage.font) {
+     this.font = localStorage.font
+   }
+ },
+ computed:{
  
  }
  

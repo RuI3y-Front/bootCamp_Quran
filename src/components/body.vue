@@ -155,29 +155,26 @@
       </div>
     </div>
 
-    <div class="contact">
-      <div>
-        <ul id="Hashtak">
-          <li
-            class="list-group-item list-group-item-light"
-            id="cont"
-            v-for="(suraa, index) in filterSura()  "
-            :key="index"
-            
-          >
-            <router-link  :to="{ name: 'about', params: { id: index + 1 } }">
-              <p id="index-aye">{{ index + 1 }}</p>
-              <h3>{{ suraa[4] }}</h3>
-              <h5>{{ suraa[7] }}</h5>
-            </router-link>
-            
+    <div class="contact absolute" style="">
+      <div  style="" class="row ">
+        <ul style="" id="Hashtak"  >
+         
+          <li  class="list-group-item list-group-item-light" id="cont"
+           v-for="(suraa,index) in SuraList" 
+           :key="index"
+            >
+                   <router-link :to="{name:'about',params:{id:index+1} }" >
+                     <h3>{{suraa[4]}} </h3>
+                     <h5>{{suraa[7]}}</h5>
+                     
+              </router-link> 
+     
+                  
           </li>
         </ul>
-      </div>
-    </div>
-    <div id="social">
-     
-    </div>
+      </div>     
+        </div>
+  
   </body>
 </template>
 
@@ -186,23 +183,14 @@
 
 import aboutPage from "./aboutPage.vue";
 import { SuraList } from "../assets/quran-metadata";
-import { useRouter, useRoute } from "vue-router";
-import { ref } from "vue";
 
 export default {
   components: { aboutPage },
   setup() {
-    const router = useRouter();
-    const route = useRoute();
-    let store =useStore();
-    const serachInput=ref("")
-   
-    function filterSura(){
-      return SuraList.filter(suraa => suraa.name.includes(store.state.serachInput.value))
-    }
+  
 
     return {
-      SuraList,serachInput,filterSura
+      SuraList,
     };
   },
 };
